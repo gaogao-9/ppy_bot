@@ -1,0 +1,12 @@
+node_modules/
+ssh_key/
+*.bat
+*.log
+debug/
+release/
+src/BotList/
+src/Plugin/
+test/debug/
+test/release/
+test/src/Plugin/
+slackToken.js
