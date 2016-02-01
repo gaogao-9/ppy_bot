@@ -15,9 +15,9 @@
 # (後述)の説明まとめ
 
 ## slackToken.jsを用意する
-Slack内で何らかのチームに参加した状態で https://api.slack.com/web にアクセスすると、ページ下部にトークンを生成できる項目があります。
+Slack内で何らかのチームに参加した状態で https://hogeppy.slack.com/apps/manage/A0F7YS25R-bots にアクセスすると、トークンを生成できる項目があります。
 
-「Create token」のボタンを押して、トークンを生成後、そのトークンをコピペしておきます
+「Add Configuration」のボタンを押して、情報を入力。トークンを生成後、そのトークンをコピペしておきます
 
 次に、作っておいたslackToken.jsのファイルを以下のフォーマットでトークンを記述して保存します。
 
