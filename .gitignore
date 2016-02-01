@@ -4,9 +4,13 @@ ssh_key/
 *.log
 debug/
 release/
-src/BotList/
-src/Plugin/
+src/BotList/*
+!src/BotList/aoba_suzukaze.js
+src/Plugin/*
+!src/Plugin/Paiza
 test/debug/
 test/release/
-test/src/Plugin/
+test/src/Plugin/*
+!test/src/Plugin/testPlugin.js
+!test/src/Plugin/Paiza
 slackToken.js
