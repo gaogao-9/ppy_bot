@@ -28,6 +28,8 @@ export default "XXXX-XXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXX";
 ## src/BotListディレクトリにbot定義ファイルを用意する
 まず、aoba_suzukaze.jsをコピーするなどしてバックアップとっておきます(保険)
 
+次に、ファイル名を自分の好きな名前に変更します。オススメの命名はbotのidと同一にしておくことです。
+
 次に、変数botの中につらつらと記述しているプロパティ各種を、自分好みにレイアウトします。
 各プロパティの説明は以下のようになります。
 
@@ -60,7 +62,7 @@ BotInfo型もしくはPluginInfo型のオブジェクトについています。
 ## intervalActionListについて
 中身はObject-Array-Objectという構成です。一番内側のObjectについてだけ説明します。
 
-一番内側のObjectでは、「check」「next」「message」が必須プロパティとなっています。
+一番内側のObjectでは、「check」「next」「message」が必須プロパティとなっています。「priority」が任意プロパティとなっています。
 Node.jsを立ち上げた後のタイミングや、何らかの原因で通信が遮断され再接続された場合のように、Streamingに初めて接続したタイミングで、「check」に指定した関数が走ります。
 
 「check」に指定した関数はBooleanを返すように設計してください。
@@ -103,3 +105,11 @@ Node.jsを立ち上げた後のタイミングや、何らかの原因で通信�
 インターフェースはcommonActionListと全く同じです。第一引数に与えられるObjectの種類も一緒です。
 
 何らかの発言が飛ぶたびに実行されるため、制約が緩いです。エゴサしてリプを飛ばす等のことがしたい場合はこちらに記述してください。
+
+# Plugin作成について
+Botの作成方法とほとんど一緒ですが、Bot作成時にはあったmessages系が削除されているなど、オブジェクトとしては若干軽量になっています。
+Pluginの読み込みは「src/Plugin/*/index.js」を読み込みます。index.js以外のファイルは読み込まないので自由にライブラリを持ち込んでください。
+
+実行される流れは、botのcommandAction or wordActionが実行された時に、同一種類のPluginイベントが続けざまに発火する流れになっています。
+
+例えば、私が「@bot1 @bot2 @bot3すき」と、3体のbotに~~浮気~~愛のリプを飛ばした際に、commandActionが「@bot1で2個」「@bot2で0個」「@bot3で1個」発火した場合は、PluginはcommandActionを「targetBotが@bot1で2回」「targetBotが@bot3で1回」の合計3回発火します。
