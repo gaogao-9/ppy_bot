@@ -1,3 +1,12 @@
+import HtmlSpecialChars from "./HtmlSpecialChars.js";
+
+// HTMLエスケープ用のライブラリを初期化する
+const h = new HtmlSpecialChars({
+	'&': '&amp;',
+	'<': '&lt;',
+	'>': '&gt;'
+});
+
 class GetMessageFormatter{
 	constructor(slackBot){
 		this._slackBot = slackBot;
@@ -7,50 +16,95 @@ class GetMessageFormatter{
 		return this._slackBot;
 	}
 	
-	async format(messageObject){
+	async format(msgObj){
 		// オブジェクトの整形を行う
-		messageObject      = await this.formatObject(messageObject);
-		messageObject.text = await this.formatText(messageObject);
+		msgObj = await this.formatObject(msgObj);
 		
-		// チャンネルIDとユーザ名を抽出する
-		const {channelId,username} = messageObject;
+		// テキストの整形を行う
+		const {text, symbolList} = await this.formatText(msgObj);
+		
+		// テキストを置換する
+		[msgObj.rawText,msgObj.text] = [msgObj.text, text];
 		
 		// 投稿結果オブジェクトを返す
-		return messageObject;
+		return {
+			messageObject: msgObj,
+			symbolList,
+		};
 	}
 	
-	async formatObject(messageObject){
-		// チャンネルIDの取得
-		if(messageObject.channel_name){
-			const channel = await this.slackBot.getChannel(messageObject.channel_name);
-			messageObject.channel = channel.id;
-			delete messageObject.channel_name;
-		}
-		
-		return messageObject;
+	async formatObject(msgObj){
+		return msgObj;
 	}
 	
-	async formatText(messageObject){
-		let text = messageObject.text || "";
+	async formatText(msgObj){
+		// 参加者一覧を取ってくる
+		const usersList = (await this.slackBot.getUsers()).members;
 		
-		// リプライ先の付与
-		if(messageObject.reply_to_name){
-			text = `@${messageObject.reply_to_name} ` + text;
-			delete messageObject.reply_to_name;
-		}
-		else if(messageObject.reply_to){
-			const reply_to = await this.slackBot.getUser(messageObject.reply_to);
-			text = `@${reply_to.name} ` + text;
-			delete messageObject.reply_to;
+		// チャンネル一覧を取ってくる
+		const channelsList = (await this.slackBot.getChannels()).channels;
+		
+		// 出力の一部となるリプライやチャンネルといった情報を溜めておく配列を定義
+		const replyList   = [];
+		const channelList = [];
+		const othersList  = [];
+		
+		let text = msgObj.text
+			// チャンネルの抽出(登録されているユーザー名)
+			.replace(/(?:<#([A-Z0-9]+)(\|[a-z0-9_]+)?>)/g,tagReplacerCallback.bind(null,{
+					targetList:  channelList,
+					subjectList: channelsList,
+				}))
+			// ユーザ名の抽出1(登録されているユーザー名)
+			.replace(/(?:<@([A-Z0-9]+)(\|[a-z0-9_]+)?>)/g,tagReplacerCallback.bind(null,{
+					targetList:  replyList,
+					subjectList: usersList,
+				}))
+			// その他よくわからないものは良くわからないリストに突っ込んでおく
+			.replace(/<([^<>]+)?>/g,($0,$1)=>{
+					othersList.push($1);
+					return "";
+				});
+		
+		// ユーザ名の抽出2(架空のユーザー名)
+		while(true){
+			const replacedText = text.replace(/(?:^|(\s))@([a-z0-9_]+)(?:(\s)|$)/g,($0,$1,$2,$3)=>{
+				replyList.push($2);
+				return ($1||"")+($3||"");
+			});
+			if(text === replacedText) break;
+			text = replacedText;
 		}
 		
-		// Pingテキストの付与
-		if(messageObject.use_ping){
-			text += ` (${((Date.now()-timestamp*1000)/1000).toFixed(3)}sec)`;
-			delete messageObject.use_ping;
-		}
-		return text;
+		// HTML特殊文字をデコードする
+		text = h.unescape(text);
+		
+		return {
+			text,
+			symbolList: {
+				reply: replyList,
+				channel: channelsList,
+				others: othersList,
+			},
+		};
 	}
+}
+
+function tagReplacerCallback({targetList,subjectList},$0,$1,$2){
+	if($2){
+		// エイリアスの指定があればそれを利用する
+		targetList.push($2);
+	}
+	else{
+		// 指定がなければリストの中から特定する
+		const subject = subjectList.find(obj=>obj.id===$1);
+		if(subject){
+			targetList.push(subject.name);
+		}
+	}
+	
+	// テキスト中からは除外しておく
+	return "";
 }
 
 export default GetMessageFormatter;

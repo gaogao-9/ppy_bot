@@ -23,7 +23,6 @@ const bot = {
 				actions,
 			}){
 				// 日曜日10時以降のみ発動
-				return true;
 				return (dt.getDay() === 0) && (dt.getHours() >= 10);
 			},
 			next({
@@ -65,7 +64,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				replyList,
+				symbolList,
 			}){
 				// 既に他の発言をしていたら実行しない
 				return !msgObjList.some(msgObj => msgObj.bot_id === this.id);
@@ -79,7 +78,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				replyList,
+				symbolList,
 			}){
 				return this.createRandomMessageObject("reply",{
 						channel,
@@ -100,7 +99,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				replyList,
+				symbolList,
 			}){
 				return text.match(/(?:(?:すずかぜ|涼風|あおば|青葉)(?:ちゃん|さん)?|(?:(?:ぞい|ゾイ|ｿﾞｲ)[こ子]))[いお]る[か？?]/);
 			},
@@ -113,7 +112,7 @@ const bot = {
 					ts,
 				},
 				msgObjList,
-				replyList,
+				symbolList,
 			}){
 				return this.createRandomMessageObject("ping",{
 						ts,
@@ -134,7 +133,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				replyList,
+				symbolList,
 			}){
 				return text.match(/すずかぜ|涼風|あおば|青葉|(?:(?:ぞい|ゾイ|ｿﾞｲ)[こ子])/) && (Math.random()<0.1);
 			},
@@ -148,7 +147,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				replyList,
+				symbolList,
 			}){
 				return this.createRandomMessageObject("reply",{
 						channel,

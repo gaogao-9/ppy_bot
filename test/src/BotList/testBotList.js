@@ -21,7 +21,7 @@ function tester(){
 			for(const path of pathList){
 				const bot = new BotInfo(require(path));
 				describe(`型チェック: ${path}`,_=>{
-					for(const prop of ["id","name","iconUrl"]){
+					for(const prop of ["id","messageId","name","iconUrl"]){
 						it(`typeof(bot.${prop}) === "string"`,()=>{
 							(typeof(bot[prop])).should.be.exactly("string");
 						});

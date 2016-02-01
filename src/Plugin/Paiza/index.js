@@ -17,7 +17,7 @@ const plugin = {
 					channel,
 				},
 				msgObjList,
-				replyList,
+				symbolList,
 				botList,
 				pluginList,
 				targetBot:bot,
@@ -52,7 +52,7 @@ const plugin = {
 					channel,
 				},
 				msgObjList,
-				replyList,
+				symbolList,
 				botList,
 				pluginList,
 				targetBot:bot,
@@ -78,7 +78,7 @@ const plugin = {
 						language,
 						sourceCode,
 					});
-					console.log(language,sourceCode);
+					
 					const result = await paiza.send();
 					let resultText = result.stdout + result.stderr;
 					if(resultText.length > 1023){

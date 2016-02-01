@@ -21,6 +21,10 @@ class BotInfo extends PriorityListItem{
 		this.wordActionList     = WordActionList.from(prop.wordActionList);
 	}
 	
+	get messageId(){
+		return "bot_id";
+	}
+	
 	set id(value){
 		if(typeof(value) !== "string"){
 			throw new TypeError("idはString型のプロパティです");
@@ -140,9 +144,9 @@ class BotInfo extends PriorityListItem{
 		const username = prop.username || `${name}(@${id})`;
 		
 		return Object.assign({
-			bot_id: this.id,
+			[this.messageId]: this.id,
 			text,
-			username:,
+			username,
 			icon_url,
 		},prop);
 	}
