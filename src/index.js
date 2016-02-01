@@ -54,7 +54,7 @@ async function startSlackBot(){
 				.catch(err=>{
 					// エラーが発生した場合は、エラーを表示させて継続させる
 					// (メッセージループを絶やしてはいけない…絶対にだ…)
-					console.log(err);
+					console.error(err.stack);
 				});
 		})
 		.on("open",_=>{

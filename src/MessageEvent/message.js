@@ -77,6 +77,7 @@ async function message({
 							symbolList,
 							botList,
 							pluginList,
+							targetBot: bot,
 						});
 					}
 					
