@@ -95,8 +95,8 @@ class PluginInfo extends PriorityListItem{
 	}
 	
 	createMessageObject(text,prop = {}, targetBot = {}){
-		const name     = prop.name     || this.name    || targetBot.name;
 		const id       = prop.id       || this.id      || targetBot.id;
+		const name     = prop.name     || this.name    || targetBot.name;
 		const icon_url = prop.icon_url || this.iconUrl || targetBot.iconUrl;
 		const username = prop.username || `${name}(@${id})`;
 		

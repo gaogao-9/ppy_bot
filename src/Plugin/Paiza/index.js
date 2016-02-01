@@ -92,7 +92,7 @@ ${resultText}
 					return this.createMessageObject(text,{
 						id: bot.id,
 						name: bot.name,
-						icon_url: bot.icon_url,
+						icon_url: bot.iconUrl,
 						channel,
 						reply_to: user,
 					},bot);
