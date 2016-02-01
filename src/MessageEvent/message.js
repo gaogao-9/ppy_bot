@@ -9,9 +9,6 @@ async function message({
 	getMessageFormatter,
 	postMessageFormatter,
 },data){
-	// 通常のメッセージ以外は弾く
-	if(data.subtype) return;
-	
 	// 全てのBotがつぶやくオブジェクトを溜めておく
 	const outMsgObjList = [];
 	
