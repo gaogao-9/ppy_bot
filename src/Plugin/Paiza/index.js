@@ -90,6 +90,9 @@ const plugin = {
 ${resultText}
 \`\`\``;
 					return this.createMessageObject(text,{
+						id: bot.id,
+						name: bot.name,
+						icon_url: bot.icon_url,
 						channel,
 						reply_to: user,
 					},bot);

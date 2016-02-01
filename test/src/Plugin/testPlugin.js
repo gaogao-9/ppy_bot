@@ -22,7 +22,7 @@ function tester(){
 				const plugin = new PluginInfo(require(path));
 				
 				describe(`型チェック: ${path}`,_=>{
-					for(const prop of ["id","messageId","name"]){
+					for(const prop of ["id","messageId","name","iconUrl"]){
 						it(`typeof(plugin.${prop}) === "string"`,()=>{
 							(typeof(plugin[prop])).should.be.exactly("string");
 						});

@@ -13,6 +13,7 @@ class PluginInfo extends PriorityListItem{
 		
 		this.id                 = prop.id;
 		this.name               = prop.name;
+		this.iconUrl            = prop.iconUrl || "";
 		this.disabled           = prop.disabled || false;
 		this.intervalActionList = IntervalActionList.from(prop.intervalActionList);
 		this.commandActionList  = CommandActionList.from(prop.commandActionList);
@@ -41,6 +42,16 @@ class PluginInfo extends PriorityListItem{
 	}
 	get name(){
 		return this._name;
+	}
+	
+	set iconUrl(value){
+		if(typeof(value) !== "string"){
+			throw new TypeError("iconUrlはString型のプロパティです");
+		}
+		this._iconUrl = value;
+	}
+	get iconUrl(){
+		return this._iconUrl;
 	}
 	
 	set disabled(value){
@@ -84,9 +95,9 @@ class PluginInfo extends PriorityListItem{
 	}
 	
 	createMessageObject(text,prop = {}, targetBot = {}){
-		const name     = prop.name     || targetBot.name    || this.name;
-		const id       = prop.id       || targetBot.id      || this.id;
-		const icon_url = prop.icon_url || targetBot.iconUrl || this.iconUrl;
+		const name     = prop.name     || this.name    || targetBot.name;
+		const id       = prop.id       || this.id      || targetBot.id;
+		const icon_url = prop.icon_url || this.iconUrl || targetBot.iconUrl;
 		const username = prop.username || `${name}(@${id})`;
 		
 		return Object.assign({
