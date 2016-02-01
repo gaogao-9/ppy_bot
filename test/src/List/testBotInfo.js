@@ -8,7 +8,7 @@ function tester(){
 			it(`typeof(BotInfo) === "function"`,()=>{
 				(typeof(BotInfo)).should.be.exactly("function");
 			});
-			["id","name","iconUrl","disabled","messages","priority","intervalActionList","commandActionList","wordActionList","createRandomMessageObject","createMessageObject","_getRandomText"].forEach(name=>{
+			["id","name","iconUrl","disabled","messages","priority","intervalActionList","commandActionList","wordActionList","createSequentialMessageObject","createRandomMessageObject","createMessageObject","_getRandomText"].forEach(name=>{
 				it(`prototype.${name}`,()=>{
 					BotInfo.prototype.should.have.property(name);
 				});

@@ -101,9 +101,33 @@ class BotInfo extends PriorityListItem{
 		return this._wordActionList;
 	}
 	
+	createSequentialMessageObject(name,prop = {}){
+		// 指定されたキーのリストがなければ発言しない
+		if(!this.messages[name]) return null;
+		// 長さがなければ発言しない
+		if(!this.messages[name].length) return null;
+		
+		// 秘技！Array自体にプロパティを生やす闇テク～～～ｗｗｗ
+		let cnt = this.messages[name].__cnt = this.messages[name].__cnt || 0;
+		
+		const text = this.messages[name][cnt++];
+		
+		// カウント後の値を戻す
+		if(this.messages[name].length === cnt){
+			this.messages[name].__cnt = 0;
+		}
+		else{
+			this.messages[name].__cnt = cnt;
+		}
+		
+		return this.createMessageObject(text,prop);
+	}
+	
 	createRandomMessageObject(name,prop = {}){
 		// 指定されたキーのリストがなければ発言しない
 		if(!this.messages[name]) return null;
+		// 長さがなければ発言しない
+		if(!this.messages[name].length) return null;
 		
 		const text = this._getRandomText(this.messages[name]);
 		return this.createMessageObject(text,prop);
