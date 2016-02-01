@@ -90,7 +90,7 @@ const plugin = {
 ${resultText}
 \`\`\``;
 					return this.createMessageObject(text,{
-					channel,
+						channel,
 						reply_to: user,
 					},bot);
 				})().catch(err=>{

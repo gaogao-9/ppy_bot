@@ -80,13 +80,15 @@ class PluginInfo extends PriorityListItem{
 	}
 	
 	createMessageObject(text,prop = {}, targetBot = {}){
-		const [name,id,icon_url] = (targetBot.name&&targetBot.id&&targetBot.iconUrl)
-			? [targetBot.name,targetBot.id,targetBot.iconUrl]
-			: [this.name,this,id,this.iconUrl];
+		const name     = prop.name     || targetBot.name    || this.name;
+		const id       = prop.id       || targetBot.id      || this.id;
+		const icon_url = prop.icon_url || targetBot.iconUrl || this.iconUrl;
+		const username = prop.username || `${name}(@${id})`;
+		
 		return Object.assign({
 			plugin_id: this.id,
 			text,
-			username: `${name}(@${id})`,
+			username,
 			icon_url,
 		},prop);
 	}

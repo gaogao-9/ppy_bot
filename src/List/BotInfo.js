@@ -134,11 +134,16 @@ class BotInfo extends PriorityListItem{
 	}
 	
 	createMessageObject(text,prop = {}){
+		const name     = prop.name     || this.name;
+		const id       = prop.id       || this.id;
+		const icon_url = prop.icon_url || this.iconUrl;
+		const username = prop.username || `${name}(@${id})`;
+		
 		return Object.assign({
 			bot_id: this.id,
 			text,
-			username: `${this.name}(@${this.id})`,
-			icon_url: this.iconUrl,
+			username:,
+			icon_url,
 		},prop);
 	}
 	
