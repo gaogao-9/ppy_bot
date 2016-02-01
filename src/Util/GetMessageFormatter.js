@@ -21,7 +21,7 @@ class GetMessageFormatter{
 		msgObj = await this.formatObject(msgObj);
 		
 		// テキストの整形を行う
-		const {text, symbolList} = await this.formatText(msgObj);
+		const {text, symbols} = await this.formatText(msgObj);
 		
 		// テキストを置換する
 		[msgObj.rawText,msgObj.text] = [msgObj.text, text];
@@ -29,7 +29,7 @@ class GetMessageFormatter{
 		// 投稿結果オブジェクトを返す
 		return {
 			messageObject: msgObj,
-			symbolList,
+			symbols,
 		};
 	}
 	
@@ -81,7 +81,7 @@ class GetMessageFormatter{
 		
 		return {
 			text,
-			symbolList: {
+			symbols: {
 				reply: replyList,
 				channel: channelsList,
 				others: othersList,
