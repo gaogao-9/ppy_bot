@@ -92,7 +92,7 @@ Node.jsを立ち上げた後のタイミングや、何らかの原因で通信�
 |actions|Object|「check」「message」の関数自身が入っているオブジェクトです。|
 |param|Object|streamingのmessageイベントの情報がほぼそのまま(後述)入っています。詳しくは[Slack公式サイトのMessageイベントページ](https://api.slack.com/events/message)で。|
 |msgObjList|ObjectArray|この関数が呼ばれるまでの間に他のcommandAction/wordActionによって発言することが確実になっているMessageObjectの一覧が与えられます。同一アカウントによる多重投稿防止に役立てください。|
-|SymboList|Object|メッセージ中に含まれているリプライやチャンネルといった情報が入ったリストの一覧が入っています。(後述)|
+|symbols|Object|メッセージ中に含まれているリプライやチャンネルといった情報が入ったリストの一覧が入っています。(後述)|
 |botList|BotInfoArray|登録されている全Botがリストで格納されています。|
 |pluginList|PluginInfoArray|登録されている全Botがリストで格納されています。|
 |targetBot|BotInfo|(PluginInfo限定)プラグイン呼び出し元となるbotのオブジェクトが入っています。|
@@ -101,7 +101,7 @@ Node.jsを立ち上げた後のタイミングや、何らかの原因で通信�
 注意すべきは、paramの「text」は、いつかのリプライシンボル(@○○形式のやつ)や、チャンネルシンボル(#○○形式のやつ)等を取り除いたテキストが入っています。
 これらシンボルを取り除く前のtextが欲しい場合は「param.rawText」でアクセスしてください。
 
-### SymbolListについて
+### symbolsについて
 
 テキスト中に含まれていたreplyやchannelといった情報をObject形式でまとめてあります。
 それぞれのバリューには、テキスト中に含まれていたreplyやchannelといった情報がStringArrayの形で入っています。

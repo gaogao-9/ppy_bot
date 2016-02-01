@@ -64,7 +64,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				symbolList,
+				symbols,
 			}){
 				// 既に他の発言をしていたら実行しない
 				return !msgObjList.some(msgObj => msgObj.bot_id === this.id);
@@ -78,7 +78,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				symbolList,
+				symbols,
 			}){
 				return this.createRandomMessageObject("reply",{
 						channel,
@@ -99,7 +99,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				symbolList,
+				symbols,
 			}){
 				return text.match(/(?:(?:すずかぜ|涼風|あおば|青葉)(?:ちゃん|さん)?|(?:(?:ぞい|ゾイ|ｿﾞｲ)[こ子]))[いお]る[か？?]/);
 			},
@@ -112,7 +112,7 @@ const bot = {
 					ts,
 				},
 				msgObjList,
-				symbolList,
+				symbols,
 			}){
 				return this.createRandomMessageObject("ping",{
 						ts,
@@ -133,7 +133,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				symbolList,
+				symbols,
 			}){
 				return text.match(/すずかぜ|涼風|あおば|青葉|(?:(?:ぞい|ゾイ|ｿﾞｲ)[こ子])/) && (Math.random()<0.1);
 			},
@@ -147,7 +147,7 @@ const bot = {
 					channel,
 				},
 				msgObjList,
-				symbolList,
+				symbols,
 			}){
 				return this.createRandomMessageObject("reply",{
 						channel,

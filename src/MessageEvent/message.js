@@ -16,7 +16,7 @@ async function message({
 	const outMsgObjList = [];
 	
 	// ユーザー名とチャンネルタグを抽出しながらテキストの処理をする
-	const {messageObject:inMsgObj,symbolList} = await getMessageFormatter.format(data);
+	const {messageObject:inMsgObj,symbols} = await getMessageFormatter.format(data);
 	
 	for(const bot of [...botList]){
 		// 無効のbotはスルーする
@@ -25,7 +25,7 @@ async function message({
 		// commandやwordのActionについてさばいていく
 		for(const botAction of [...bot.commandActionList,...bot.wordActionList]){
 			// commandActionの時には、replyシンボルに引っかかるワードがあるかを見る
-			if((botAction instanceof CommandAction) && (symbolList.reply.indexOf(bot.id) === -1)){
+			if((botAction instanceof CommandAction) && (symbols.reply.indexOf(bot.id) === -1)){
 				continue;
 			}
 			
@@ -37,7 +37,7 @@ async function message({
 					actions,
 					param: inMsgObj,
 					msgObjList: outMsgObjList,
-					symbolList,
+					symbols,
 					botList,
 					pluginList,
 				});
@@ -74,7 +74,7 @@ async function message({
 							actions,
 							param: inMsgObj,
 							msgObjList: outMsgObjList,
-							symbolList,
+							symbols,
 							botList,
 							pluginList,
 							targetBot: bot,
