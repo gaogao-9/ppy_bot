@@ -113,3 +113,7 @@ Pluginの読み込みは「src/Plugin/*/index.js」を読み込みます。index
 実行される流れは、botのcommandAction or wordActionが実行された時に、同一種類のPluginイベントが続けざまに発火する流れになっています。
 
 例えば、私が「@bot1 @bot2 @bot3すき」と、3体のbotに~~浮気~~愛のリプを飛ばした際に、commandActionが「@bot1で2個」「@bot2で0個」「@bot3で1個」発火した場合は、PluginはcommandActionを「targetBotが@bot1で2回」「targetBotが@bot3で1回」の合計3回発火します。
+
+## テスト記述を用意する
+BotListに関しては可能な範囲で動的にテストしていますが、Pluginはなかなか個別でのテストが難しいのが現状です。
+「test/src/Plugin/Paiza/testPaizaAPI.js」のように、専用のテスト記述を追加して書くことをオススメします。「mocha & should」の環境で記述できます。
