@@ -29,11 +29,11 @@ async function message({
 				continue;
 			}
 			
-			// bot自身への処理を適用する
-			let {check,message} = botAction;
-			let actions = {check,message};
-			
-			actions.check = actions.check.bind(bot,{
+			// actionsオブジェクトを生成する
+			const actions = {};
+			for(const name of ["check","message"]){
+				actions[name] = botAction[name];
+				actions[name] = actions[name].bind(bot,{
 					actions,
 					param: inMsgObj,
 					msgObjList: outMsgObjList,
@@ -41,14 +41,7 @@ async function message({
 					botList,
 					pluginList,
 				});
-			actions.message = actions.message.bind(bot,{
-					actions,
-					param: inMsgObj,
-					msgObjList: outMsgObjList,
-					symbolList,
-					botList,
-					pluginList,
-				});
+			}
 			
 			// 実行関数にひっかけて、実行する場合はメッセージを登録する
 			if(actions.check()){
@@ -73,27 +66,19 @@ async function message({
 					if((botAction instanceof CommandAction) && !(pluginAction instanceof CommandAction)) continue;
 					if((botAction instanceof WordAction) && !(pluginAction instanceof WordAction)) continue;
 					
-					let {check,message} = pluginAction;
-					let actions = {check,message};
-					
-					actions.check = actions.check.bind(plugin,{
+					// actionsオブジェクトを生成する
+					const actions = {};
+					for(const name of ["check","message"]){
+						actions[name] = pluginAction[name];
+						actions[name] = actions[name].bind(plugin,{
 							actions,
 							param: inMsgObj,
 							msgObjList: outMsgObjList,
 							symbolList,
 							botList,
 							pluginList,
-							targetBot: bot,
 						});
-					actions.message = actions.message.bind(plugin,{
-							actions,
-							param: inMsgObj,
-							msgObjList: outMsgObjList,
-							symbolList,
-							botList,
-							pluginList,
-							targetBot: bot,
-						});
+					}
 					
 					// 実行関数にひっかけて、実行する場合はメッセージを登録する
 					if(actions.check()){

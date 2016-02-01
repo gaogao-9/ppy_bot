@@ -23,7 +23,7 @@ async function hello({
 		// 初回起動時にIntervalActionが発動できるかどうかを見る
 intervalActionFor: 
 		for(const intervalAction of target.intervalActionList){
-			// ロケール考慮のDateオブジェクトを生成する(何がロケールだ、俺は日本人だ)
+			// actionsオブジェクトを生成する
 			const actions = {};
 			for(const name of ["check","next","message"]){
 				actions[name] = intervalAction[name];
@@ -46,6 +46,7 @@ intervalActionFor:
 			
 			// 定期実行用のループを記述する
 			while(true){
+				// ロケール考慮のDateオブジェクトを生成する(何がロケールだ、俺は日本人だ)
 				const dt = new DateWithOffset(540);
 				const nd = actions.next();
 				const delta = Math.max(nd - dt, 1000); // 最小待機時間は１秒とする
