@@ -9,6 +9,9 @@ async function message({
 	getMessageFormatter,
 	postMessageFormatter,
 },data){
+	// reply_toがついてるものは、latestの発言なので無視する
+	if(data.reply_to) return;
+	
 	// 全てのBotがつぶやくオブジェクトを溜めておく
 	const outMsgObjList = [];
 	

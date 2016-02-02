@@ -99,7 +99,7 @@ const bot = {
 				msgObjList,
 				symbols,
 			}){
-				return text.match(/(?:(?:すずかぜ|涼風|あおば|青葉)(?:ちゃん|さん)?|(?:(?:ぞい|ゾイ|ｿﾞｲ)[こ子]))[いお]る[か？?]/);
+				return /(?:(?:すずかぜ|涼風|あおば|青葉)(?:ちゃん|さん)?|(?:(?:ぞい|ゾイ|ｿﾞｲ)[こ子]))[いお]る[か？?]/.test(text);
 			},
 			message({
 				actions,
@@ -120,6 +120,43 @@ const bot = {
 					});
 			},
 		},
+		// 詫びあおばちゃん
+		{
+			check({
+				actions,
+				param:{
+					user,
+					text,
+					ts,
+					channel,
+				},
+				msgObjList,
+				symbols,
+			}){
+				// 既に他の発言をしていたら実行しない
+				if(msgObjList.some(msgObj => msgObj.bot_id === this.id)) return false;
+				
+				return /(?:(?:すずかぜ|涼風|あおば|青葉)(?:ちゃん|さん)?|(?:(?:ぞい|ゾイ|ｿﾞｲ)[こ子]))[詫わ]び[てろ]/.test(text);
+			},
+			message({
+				actions,
+				param:{
+					user,
+					text,
+					ts,
+					channel,
+				},
+				msgObjList,
+				symbols,
+			}){
+				return this.createMessageObject(
+					"http://p.twpl.jp/show/large/RnRp8?" + (Date.now()),
+					{
+						channel,
+						reply_to: user,
+					});
+			},
+		},
 		// あおばちゃんっぽい言葉があれば(確率で)反応する(10%)
 		{
 			check({
@@ -133,6 +170,9 @@ const bot = {
 				msgObjList,
 				symbols,
 			}){
+				// 既に他の発言をしていたら実行しない
+				if(msgObjList.some(msgObj => msgObj.bot_id === this.id)) return false;
+				
 				return text.match(/すずかぜ|涼風|あおば|青葉|(?:(?:ぞい|ゾイ|ｿﾞｲ)[こ子])/) && (Math.random()<0.1);
 			},
 			message({
