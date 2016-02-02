@@ -30,12 +30,10 @@ const bot = {
 				actions,
 			}){
 				const date = dt.getDate();
+				const day = dt.getDay();
 				
 				// 一番近い日曜日10時辺りで。
-				if(actions.check()){
-					// 発動条件満たしている場合は1週間後にする
-					dt.setDate(date+7);
-				}
+				dt.setDate(date+(7-day));
 				dt.setHours(10);
 				dt.setMinutes(0);
 				dt.setSeconds(0);
